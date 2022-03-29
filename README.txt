@@ -5,3 +5,5 @@ b. Xem thống kê tài khoản
 c. Gửi coin cho địa chỉ khác
 d. Xem lịch sử giao dịch (như etherscan.io)
 2. Sử dụng thuật toán Proof of work
+
+Tài liệu tham khảo: https://github.com/Savjee/SavjeeCoin
