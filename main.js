@@ -27,6 +27,7 @@ class Block {
       this.nonce++;
       this.hash = this.calculateHash();
     }
+    this.difficulty = difficulty;
     console.log('block mined: ' + this.hash);
   }
 }
@@ -34,7 +35,9 @@ class Block {
 class Blockchain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
-    this.difficulty = 2;
+    this.chainDifficulty = 2;
+    // this.BLOCK_GENERATION_INTERVAL = 10; // seconds
+    this.DIFFICULTY_ADJUSTMENT_INTERVAL = 10; // blocks
   }
 
   createGenesisBlock() {
@@ -44,11 +47,24 @@ class Blockchain {
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
+
+  adjustChainDifficulty() {
+    if (this.chain.length > this.DIFFICULTY_ADJUSTMENT_INTERVAL) {
+      const preAdjustedBlock =
+        this.chain[this.chain.length - this.DIFFICULTY_ADJUSTMENT_INTERVAL];
+      if (preAdjustedBlock.difficulty === this.chainDifficulty) {
+        this.chainDifficulty++;
+      }
+    }
+  }
+
   addBlock(newBlock) {
+    this.adjustChainDifficulty();
     newBlock.previousHash = this.getLatestBlock().hash;
-    newBlock.mineBlock(this.difficulty);
+    newBlock.mineBlock(this.chainDifficulty);
     this.chain.push(newBlock);
   }
+
   isChainValid() {
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
@@ -72,4 +88,10 @@ console.log('mining coin 1...');
 myCoin.addBlock(new Block(1, '02/01/2000', { amount: 4 }));
 console.log('mining coin 2...');
 myCoin.addBlock(new Block(2, '03/01/2000', { amount: 42 }));
+console.log('mining coin 3...');
+myCoin.addBlock(new Block(3, '03/01/2000', { amount: 42 }));
+console.log('mining coin 4...');
+myCoin.addBlock(new Block(4, '03/01/2000', { amount: 42 }));
+console.log('mining coin 5...');
+myCoin.addBlock(new Block(5, '03/01/2000', { amount: 42 }));
 console.log(myCoin);
