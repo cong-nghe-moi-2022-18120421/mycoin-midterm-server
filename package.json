@@ -6,7 +6,8 @@
   "author": "anhkhoatranle30 <anhkhoatranle30@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "crypto-js": "^4.1.1"
+    "crypto-js": "^4.1.1",
+    "elliptic": "^6.5.4"
   },
   "scripts": {
     "start": "node ./src/index.js"
