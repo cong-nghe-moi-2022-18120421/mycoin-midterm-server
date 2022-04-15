@@ -36,15 +36,24 @@ class Blockchain {
   //   this.chain.push(newBlock);
   // }
   minePendingTransactions(miningRewardAddress) {
-    const newBlock = new Block(Date.now(), this.pendingTransactions);
+    const rewardTx = new Transaction(
+      null,
+      miningRewardAddress,
+      this.miningReward
+    );
+    this.pendingTransactions.push(rewardTx);
+
+    const newBlock = new Block(
+      Date.now(),
+      this.pendingTransactions,
+      this.getLatestBlock().hash
+    );
     this.adjustChainDifficulty();
     newBlock.mineBlock(this.chainDifficulty);
 
     this.chain.push(newBlock);
 
-    this.pendingTransactions = [
-      new Transaction(null, miningRewardAddress, this.miningReward),
-    ];
+    this.pendingTransactions = [];
   }
 
   createTransaction(transaction) {
