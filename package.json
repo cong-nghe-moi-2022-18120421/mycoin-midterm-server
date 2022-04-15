@@ -1,0 +1,14 @@
+{
+  "name": "new-technologies-midterm-mycoin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/anhkhoatranle30/mycoin_blockchain.git",
+  "author": "anhkhoatranle30 <anhkhoatranle30@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "crypto-js": "^4.1.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}

@@ -1,43 +1,5 @@
-const SHA256 = require('crypto-js/sha256');
-
-class Transaction {
-  constructor(fromAddress, toAddress, amount) {
-    this.fromAddress = fromAddress;
-    this.toAddress = toAddress;
-    this.amount = amount;
-  }
-}
-
-class Block {
-  constructor(timestamp, transactions, previousHash = '') {
-    this.timestamp = timestamp;
-    this.transactions = transactions;
-    this.previousHash = previousHash;
-    this.hash = this.calculateHash();
-    this.nonce = 0;
-  }
-
-  calculateHash() {
-    return SHA256(
-      this.index +
-        this.previousHash +
-        this.timestamp +
-        JSON.stringify(this.transactions) +
-        this.nonce
-    ).toString();
-  }
-
-  mineBlock(difficulty) {
-    while (
-      this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')
-    ) {
-      this.nonce++;
-      this.hash = this.calculateHash();
-    }
-    this.difficulty = difficulty;
-    console.log('block mined: ' + this.hash);
-  }
-}
+const Block = require('./Block');
+const Transaction = require('./Transaction');
 
 class Blockchain {
   constructor() {
@@ -123,17 +85,4 @@ class Blockchain {
   }
 }
 
-// try to log the blockchain to console
-let myCoin = new Blockchain();
-myCoin.createTransaction(new Transaction('add1', 'add2', 10));
-myCoin.createTransaction(new Transaction('add2', 'add1', 5));
-
-console.log('\nStart miner...');
-myCoin.minePendingTransactions('khoa');
-
-console.log('\nKhoa wallet: ', myCoin.getBalanceOfAddress('khoa'));
-
-console.log('\nStart miner again...');
-myCoin.minePendingTransactions('khoa');
-
-console.log('\nKhoa wallet: ', myCoin.getBalanceOfAddress('khoa'));
+module.exports = Blockchain;
