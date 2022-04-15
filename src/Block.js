@@ -29,6 +29,16 @@ class Block {
     this.difficulty = difficulty;
     console.log('block mined: ' + this.hash);
   }
+
+  hasValidTransactions() {
+    for (const tx of this.transactions) {
+      if (!tx.isValid()) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
 
 module.exports = Block;
