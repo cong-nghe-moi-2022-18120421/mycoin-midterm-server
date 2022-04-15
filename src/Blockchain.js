@@ -12,7 +12,7 @@ class Blockchain {
   }
 
   #createGenesisBlock() {
-    return new Block('01/01/2000', 'Genesis block', '');
+    return new Block('01/01/2000', [], 'Genesis block', '');
   }
 
   getLatestBlock() {
@@ -56,7 +56,17 @@ class Blockchain {
     this.pendingTransactions = [];
   }
 
-  createTransaction(transaction) {
+  addTransaction(transaction) {
+    if (!transaction.fromAddress || !transaction.toAddress) {
+      throw new Error(
+        'Transaction must include sender (from address) and receiver (to address)'
+      );
+    }
+
+    if (!transaction.isValid()) {
+      throw new Error('Can not add invalid transaction');
+    }
+
     this.pendingTransactions.push(transaction);
   }
 
@@ -81,6 +91,10 @@ class Blockchain {
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
       const previousBlock = this.chain[i - 1];
+
+      if (!currentBlock.hasValidTransactions()) {
+        return false;
+      }
 
       if (currentBlock.hash !== currentBlock.calculateHash()) {
         return false;
