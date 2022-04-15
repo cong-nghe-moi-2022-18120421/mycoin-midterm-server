@@ -1,17 +1,21 @@
 const Transaction = require('./Transaction');
 const Blockchain = require('./Blockchain');
+const EC = require('elliptic').ec;
+const ec = new EC('secp256k1');
+
+const myKey = ec.keyFromPrivate(
+  '5df07b721f37408e7492c7f90d0b18815e141512972d7a3bce665304742967c5'
+);
+const myWalletAddress = myKey.getPublic('hex');
 
 // try to log the blockchain to console
 let myCoin = new Blockchain();
-myCoin.createTransaction(new Transaction('add1', 'add2', 10));
-myCoin.createTransaction(new Transaction('add2', 'add1', 5));
+
+const tx1 = new Transaction(myWalletAddress, 'public key here', 2);
+tx1.signTransaction(myKey);
+myCoin.addTransaction(tx1);
 
 console.log('\nStart miner...');
-myCoin.minePendingTransactions('khoa');
+myCoin.minePendingTransactions(myWalletAddress);
 
-console.log('\nKhoa wallet: ', myCoin.getBalanceOfAddress('khoa'));
-
-console.log('\nStart miner again...');
-myCoin.minePendingTransactions('khoa');
-
-console.log('\nKhoa wallet: ', myCoin.getBalanceOfAddress('khoa'));
+console.log('\nKhoa wallet: ', myCoin.getBalanceOfAddress(myWalletAddress));
