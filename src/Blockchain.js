@@ -11,8 +11,21 @@ class Blockchain {
     this.miningReward = 10;
   }
 
+  generateNextBlock(transactions) {
+    const previousBlock = this.getLatestBlock();
+    const nextIndex = previousBlock.index + 1;
+    const nextTimestamp = new Date().getTime() / 1000;
+
+    return new Block(
+      nextIndex,
+      nextTimestamp,
+      transactions,
+      previousBlock.hash
+    );
+  }
+
   #createGenesisBlock() {
-    return new Block('01/01/2000', [], 'Genesis block', '');
+    return new Block(0, 1650208118, [], 'Genesis block', '');
   }
 
   getLatestBlock() {
@@ -43,11 +56,7 @@ class Blockchain {
     );
     this.pendingTransactions.push(rewardTx);
 
-    const newBlock = new Block(
-      Date.now(),
-      this.pendingTransactions,
-      this.getLatestBlock().hash
-    );
+    const newBlock = this.generateNextBlock(this.pendingTransactions);
     this.adjustChainDifficulty();
     newBlock.mineBlock(this.chainDifficulty);
 
