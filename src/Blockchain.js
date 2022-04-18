@@ -4,9 +4,8 @@ const Transaction = require('./Transaction');
 class Blockchain {
   constructor() {
     this.chain = [this.#createGenesisBlock()];
-    this.chainDifficulty = 2;
     this.DIFFICULTY_ADJUSTMENT_INTERVAL = 10; // blocks
-    // this.BLOCK_GENERATION_INTERVAL = 10; // minutes
+    this.BLOCK_GENERATION_INTERVAL = 10; // seconds
     this.pendingTransactions = [];
     this.miningReward = 10;
   }
@@ -25,29 +24,39 @@ class Blockchain {
   }
 
   #createGenesisBlock() {
-    return new Block(0, 1650208118, [], 'Genesis block', '');
+    return new Block(0, 1650208118, [], 'Genesis block');
   }
 
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
 
-  adjustChainDifficulty() {
-    if (this.chain.length > this.DIFFICULTY_ADJUSTMENT_INTERVAL) {
-      const preAdjustedBlock =
-        this.chain[this.chain.length - this.DIFFICULTY_ADJUSTMENT_INTERVAL];
-      if (preAdjustedBlock.difficulty === this.chainDifficulty) {
-        this.chainDifficulty++;
-      }
+  getAdjustedDifficulty() {
+    const latestBlock = this.getLatestBlock();
+    const prevAdjustmentBlock =
+      this.chain[this.chain.length - this.DIFFICULTY_ADJUSTMENT_INTERVAL];
+    const timeExpected =
+      this.BLOCK_GENERATION_INTERVAL * this.DIFFICULTY_ADJUSTMENT_INTERVAL;
+    const timeTaken = latestBlock.timestamp - prevAdjustmentBlock.timestamp;
+    if (timeTaken < timeExpected / 2) {
+      return prevAdjustmentBlock.difficulty + 1;
+    } else if (timeTaken > timeExpected * 2) {
+      return prevAdjustmentBlock.difficulty - 1;
+    } else {
+      return prevAdjustmentBlock.difficulty;
     }
   }
+  getDifficulty() {
+    const latestBlock = this.getLatestBlock();
+    if (
+      latestBlock.index % this.DIFFICULTY_ADJUSTMENT_INTERVAL === 0 &&
+      latestBlock.index !== 0
+    ) {
+      return this.getAdjustedDifficulty();
+    }
+    return latestBlock.difficulty;
+  }
 
-  // addBlock(newBlock) {
-  //   this.adjustChainDifficulty();
-  //   newBlock.previousHash = this.getLatestBlock().hash;
-  //   newBlock.mineBlock(this.chainDifficulty);
-  //   this.chain.push(newBlock);
-  // }
   minePendingTransactions(miningRewardAddress) {
     const rewardTx = new Transaction(
       null,
@@ -57,8 +66,7 @@ class Blockchain {
     this.pendingTransactions.push(rewardTx);
 
     const newBlock = this.generateNextBlock(this.pendingTransactions);
-    this.adjustChainDifficulty();
-    newBlock.mineBlock(this.chainDifficulty);
+    newBlock.mineBlock(this.getDifficulty());
 
     this.chain.push(newBlock);
 
