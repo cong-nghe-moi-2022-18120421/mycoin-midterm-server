@@ -6,6 +6,7 @@ const blockRouter = express.Router();
 //======================== GET ========================
 blockRouter.get('/', blockControllers.getAll);
 //======================== POST ========================
+blockRouter.post('/mine', blockControllers.mineBlock);
 //======================== PUT ========================
 //======================== DELETE ========================
 
