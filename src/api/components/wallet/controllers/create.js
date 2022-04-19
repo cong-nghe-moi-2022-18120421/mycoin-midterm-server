@@ -8,6 +8,7 @@ const create = (req, res) => {
   const privateKey = key.getPrivate('hex');
 
   res.status(400).send({
+    key,
     publicKey,
     privateKey,
   });
