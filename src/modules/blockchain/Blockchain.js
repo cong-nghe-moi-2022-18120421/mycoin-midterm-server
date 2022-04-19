@@ -1,5 +1,5 @@
-const Block = require('./Block');
-const Transaction = require('./Transaction');
+import Block from './Block';
+import Transaction from './Transaction';
 
 class Blockchain {
   constructor() {

@@ -1,5 +1,5 @@
-const { SHA256 } = require('crypto-js');
-const EC = require('elliptic').ec;
+import SHA256 from 'crypto-js/sha256';
+import { ec as EC } from 'elliptic';
 const ec = new EC('secp256k1');
 
 class Transaction {

@@ -1,15 +1,21 @@
 {
-  "name": "mycoin",
+  "name": "mycoin-server",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/anhkhoatranle30/mycoin_blockchain.git",
   "author": "anhkhoatranle30 <anhkhoatranle30@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
-    "elliptic": "^6.5.4"
+    "elliptic": "^6.5.4",
+    "express": "^4.17.3",
+    "morgan": "^1.10.0"
   },
+  "type": "module",
   "scripts": {
-    "start": "node ./src/index.js"
+    "dev-v1": "NODE_ENV=development nodemon --experimental-specifier-resolution=node ./src/api/index.js",
+    "start-v1": "NODE_ENV=production node --experimental-specifier-resolution=node ./src/api/index.js",
+    "dev": "yarn dev-v1"
   }
 }
