@@ -1,8 +1,9 @@
 import SHA256 from 'crypto-js/sha256';
-import { ec as EC } from 'elliptic';
+import pkg from 'elliptic';
+const { ec: EC } = pkg;
 const ec = new EC('secp256k1');
 
-class Transaction {
+export default class Transaction {
   constructor(fromAddress, toAddress, amount) {
     this.fromAddress = fromAddress;
     this.toAddress = toAddress;
@@ -34,5 +35,3 @@ class Transaction {
     return publicKey.verify(this.calculateHash(), this.signature);
   }
 }
-
-module.exports = Transaction;

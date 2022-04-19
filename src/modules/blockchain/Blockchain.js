@@ -1,7 +1,7 @@
 import Block from './Block';
 import Transaction from './Transaction';
 
-class Blockchain {
+export default class Blockchain {
   constructor() {
     this.chain = [this.#createGenesisBlock()];
     this.DIFFICULTY_ADJUSTMENT_INTERVAL = 10; // blocks
@@ -124,5 +124,3 @@ class Blockchain {
     return true;
   }
 }
-
-module.exports = Blockchain;

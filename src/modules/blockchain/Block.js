@@ -1,6 +1,6 @@
 import SHA256 from 'crypto-js/sha256';
 
-class Block {
+export default class Block {
   constructor(
     index,
     timestamp,
@@ -50,5 +50,3 @@ class Block {
     return true;
   }
 }
-
-module.exports = Block;
