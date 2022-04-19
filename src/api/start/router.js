@@ -1,7 +1,11 @@
+import blockRouter from '../components/block/router';
+import transactionRouter from '../components/transaction/router';
 import walletRouter from '../components/wallet/router';
 
 const startRouter = (app) => {
   app.use('/wallet', walletRouter);
+  app.use('/transactions', transactionRouter);
+  app.use('/blocks', blockRouter);
 
   //404
   app.use((req, res, next) => {
