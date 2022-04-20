@@ -7,7 +7,7 @@ const create = (req, res) => {
   const publicKey = key.getPublic('hex');
   const privateKey = key.getPrivate('hex');
 
-  res.status(400).send({
+  res.status(200).send({
     key,
     publicKey,
     privateKey,
