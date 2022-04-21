@@ -1,7 +1,7 @@
 import myCoin from '../../../start/blockchain';
 
 const getAll = (req, res) => {
-  const chain = myCoin.chain;
+  const chain = [...myCoin.chain];
 
   const reverseChain = chain.sort((a, b) => b.index - a.index);
 
