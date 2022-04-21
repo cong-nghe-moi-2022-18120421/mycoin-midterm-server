@@ -4,6 +4,7 @@ const getAll = (req, res) => {
   const { blockIndex } = req.query;
 
   const chain = [...myCoin.chain];
+  const pendings = [...myCoin.pendingTransactions];
 
   const transactions = [];
 
@@ -14,6 +15,10 @@ const getAll = (req, res) => {
         block: block.index,
       }));
       transactions.push(...txs);
+    });
+
+    pendings.forEach((txn) => {
+      transactions.push(txn);
     });
   } else {
     const block = chain[blockIndex];
