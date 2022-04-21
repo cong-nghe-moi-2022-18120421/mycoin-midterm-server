@@ -29,7 +29,7 @@ export default class Block {
     ).toString();
   }
 
-  mineBlock(difficulty) {
+  mineBlock(difficulty, miner) {
     while (
       this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')
     ) {
@@ -37,6 +37,7 @@ export default class Block {
       this.hash = this.calculateHash();
     }
     this.difficulty = difficulty;
+    this.miner = miner;
     console.log('block mined: ' + this.hash);
   }
 
