@@ -16,6 +16,7 @@
   "scripts": {
     "dev-v1": "NODE_ENV=development nodemon --experimental-specifier-resolution=node ./src/api/index.js",
     "start-v1": "NODE_ENV=production node --experimental-specifier-resolution=node ./src/api/index.js",
-    "dev": "yarn dev-v1"
+    "dev": "yarn dev-v1",
+    "start": "yarn start-v1"
   }
 }
