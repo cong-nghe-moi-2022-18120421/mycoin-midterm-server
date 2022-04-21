@@ -66,7 +66,7 @@ export default class Blockchain {
     this.pendingTransactions.push(rewardTx);
 
     const newBlock = this.generateNextBlock(this.pendingTransactions);
-    newBlock.mineBlock(this.getDifficulty());
+    newBlock.mineBlock(this.getDifficulty(), miningRewardAddress);
 
     this.chain.push(newBlock);
 
