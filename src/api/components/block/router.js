@@ -5,6 +5,7 @@ const blockRouter = express.Router();
 
 //======================== GET ========================
 blockRouter.get('/', blockControllers.getAll);
+blockRouter.get('/:index', blockControllers.getOneByIndex);
 //======================== POST ========================
 blockRouter.post('/mine', blockControllers.mineBlock);
 //======================== PUT ========================
