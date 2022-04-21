@@ -8,17 +8,19 @@ const ec = new EC('secp256k1');
 const sendCoin = (req, res) => {
   const { privateKey, fromAddress, toAddress, amount } = req.body;
 
+  const parsedAmount = parseFloat(amount);
+
   const myKey = ec.keyFromPrivate(privateKey);
 
   // check if balance is enough
   const balance = walletServices.getBalance(fromAddress);
-  if (balance < amount) {
+  if (balance < parsedAmount) {
     return res.status(400).send({
       message: 'Not enough balance to process this transaction',
     });
   }
 
-  const newTx = new Transaction(fromAddress, toAddress, amount);
+  const newTx = new Transaction(fromAddress, toAddress, parsedAmount);
   newTx.signTransaction(myKey);
   myCoin.addTransaction(newTx);
 
