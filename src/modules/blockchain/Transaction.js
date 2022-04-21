@@ -8,10 +8,15 @@ export default class Transaction {
     this.fromAddress = fromAddress;
     this.toAddress = toAddress;
     this.amount = amount;
+    this.timestamp = new Date().getTime();
+
+    this.hash = this.calculateHash();
   }
 
   calculateHash() {
-    return SHA256(this.fromAddress + this.toAddress + this.amount).toString();
+    return SHA256(
+      this.fromAddress + this.toAddress + this.amount + this.timestamp
+    ).toString();
   }
 
   signTransaction(signingKey) {
